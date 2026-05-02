@@ -1,0 +1,35 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Environment — never commit secrets
+.env
+.env.*
+
+# Data files (large / sensitive)
+raw/
+data/*.db
+data/*.sqlite
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+
+# Test scripts (temporary)
+test_*.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp

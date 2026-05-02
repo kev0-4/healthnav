@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: #080d1a;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { width: 100%; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #1e293b 25%, #2d3f5e 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up   { animation: fadeUp 0.45s ease both; }
+.fade-up-1 { animation: fadeUp 0.45s 0.1s ease both; }
+.fade-up-2 { animation: fadeUp 0.45s 0.2s ease both; }
+.fade-up-3 { animation: fadeUp 0.45s 0.3s ease both; }
+.fade-up-4 { animation: fadeUp 0.45s 0.45s ease both; }
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }
+
+/* Thin dark scrollbar — all scrollable areas */
+::-webkit-scrollbar          { width: 4px; height: 4px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: #1E2D45; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #2D4068; }
+* { scrollbar-width: thin; scrollbar-color: #1E2D45 transparent; }

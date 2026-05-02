@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m venv venv)",
+      "Bash(venv/bin/pip install:*)",
+      "Bash(venv/bin/python:*)",
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(npx tailwindcss *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(venv/bin/pip list *)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "Bash(curl -s -X POST http://localhost:8000/analyze -H 'Content-Type: application/json' -d '{\"query\":\"chest pain sometimes, age 55, Mumbai\"}')",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({'status':d['status'],'condition':d['condition'],'confidence':d['confidence'],'city_tier':d['city_tier'],'total':d['cost']['total'],'hospitals':[h['name'] for h in d['hospitals'][:3]]},indent=2\\)\\)\")",
+      "Bash(curl -s -X POST http://localhost:8000/analyze -H 'Content-Type: application/json' -d '{\"query\":\"knee pain Nagpur 2.5 lakhs age 58\"}')",
+      "Bash(python3 -c ' *)",
+      "Bash(pkill -f \"uvicorn src.api.main\")",
+      "Bash(pkill -f uvicorn)",
+      "Bash(fuser -k 8000/tcp)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({'status':d.get\\('status'\\),'condition':d.get\\('condition'\\),'confidence':d.get\\('confidence'\\),'city':d.get\\('city'\\),'total':d.get\\('cost',{}\\).get\\('total'\\)},indent=2\\)\\)\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(python *)",
+      "Bash(pip show *)",
+      "Bash(python3 *)",
+      "WebFetch(domain:platform.openai.com)",
+      "WebSearch",
+      "WebFetch(domain:community.openai.com)",
+      "Bash(gh auth *)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
+}
