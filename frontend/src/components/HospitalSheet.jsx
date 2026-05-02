@@ -77,7 +77,7 @@ export default function HospitalSheet({ hospital, baseCost, onClose }) {
     <>
       <div className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="fixed right-0 top-0 h-full w-[460px] z-50 flex flex-col overflow-y-auto"
+      <div className="fixed right-0 top-0 h-full w-full md:w-[460px] z-50 flex flex-col overflow-y-auto"
         style={{ background: '#0D1525', borderLeft: '1px solid #1E2D45' }}>
 
         {/* Header */}

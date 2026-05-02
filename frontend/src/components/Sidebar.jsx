@@ -41,7 +41,25 @@ function fmt(n) { return `₹${n.toLocaleString('en-IN')}` }
 const SEGMENT_COLORS = ['bg-blue-500', 'bg-violet-500', 'bg-teal-500', 'bg-slate-600']
 const SEGMENT_LABELS = ['Procedure', 'Stay', 'Meds', 'Contingency']
 
-export default function Sidebar({ result, onReset }) {
+function EligibilityBanner({ income }) {
+  if (!income || income === 'Above ₹10 lakh') return null
+  const eligible = income !== 'Above ₹10 lakh'
+  return (
+    <div className="rounded-2xl p-4" style={{ background: '#052E16', border: '1px solid #166534' }}>
+      <p className="text-[10px] text-green-400 uppercase tracking-widest font-semibold mb-2">AB-PMJAY Eligibility</p>
+      <p className="text-green-300 text-[13px] font-semibold mb-1">Likely eligible for free treatment</p>
+      <p className="text-green-600 text-[12px] leading-relaxed">
+        Annual income {income} may qualify for Ayushman Bharat PMJAY — ₹5 lakh/year cashless cover at empanelled hospitals.
+      </p>
+      <a href="https://pmjay.gov.in" target="_blank" rel="noreferrer"
+        className="inline-flex items-center gap-1 mt-2 text-[11px] text-green-400 hover:text-green-300 transition-colors">
+        Check eligibility on pmjay.gov.in →
+      </a>
+    </div>
+  )
+}
+
+export default function Sidebar({ result, onReset, income }) {
   const [expanded, setExpanded] = useState(false)
   const [selectedTier, setSelectedTier] = useState(result.city_tier)
   const { condition, icd10, confidence, severity, city, state, city_tier, other_conditions, query, budget } = result
@@ -53,7 +71,7 @@ export default function Sidebar({ result, onReset }) {
   const total = segments.reduce((a, b) => a + b, 0)
 
   return (
-    <aside className="w-[400px] shrink-0 h-[calc(100vh-60px)] sticky top-[60px] overflow-y-auto flex flex-col border-r border-[#1E2D45]"
+    <aside className="w-full md:w-[400px] shrink-0 md:h-[calc(100vh-60px)] md:sticky md:top-[60px] overflow-y-auto flex flex-col border-r border-[#1E2D45]"
       style={{ background: '#070B14' }}>
       <div className="flex-1 p-4 space-y-3">
 
@@ -167,6 +185,9 @@ export default function Sidebar({ result, onReset }) {
           </div>
           <p className="text-[11px] text-slate-600">HBP rate column: tier{selectedTier}_inr</p>
         </div>
+      </div>
+
+        <EligibilityBanner income={income} />
       </div>
 
       {/* Disclaimer sticky bottom */}

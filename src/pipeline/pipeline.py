@@ -121,7 +121,8 @@ def run(query: str, on_progress=None) -> dict:
 
     # Layer 3 — Cost estimation
     _emit(2, "running")
-    cost = calculate(pathway, city)
+    comorbidities = nlp.get("comorbidities") or []
+    cost = calculate(pathway, city, comorbidities=comorbidities)
     _emit(2, "done")
 
     if cost.get("error"):
@@ -177,6 +178,7 @@ def run(query: str, on_progress=None) -> dict:
             for c in conditions[1:]
             if c.get("icd10") != top.get("icd10") and c.get("name") != top["name"]
         ],
+        "comorbidities": comorbidities,
         "disclaimer": "This is an estimate for planning purposes only. Actual costs vary by hospital and individual case. This is not medical advice.",
     }
 

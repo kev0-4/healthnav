@@ -10,12 +10,14 @@ export default function App() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
   const [clarification, setClarification] = useState(null)
+  const [income, setIncome] = useState('')
 
   // Real-time pipeline progress
   const [activeStep, setActiveStep] = useState(-1)
   const [completedSteps, setCompletedSteps] = useState(new Set())
 
-  const handleSearch = async (query, city, budget) => {
+  const handleSearch = async (query, city, budget, userIncome = '') => {
+    setIncome(userIncome)
     setScreen('loading')
     setError(null)
     setActiveStep(0)
@@ -68,7 +70,7 @@ export default function App() {
     <>
       {screen === 'landing' && <Landing onSearch={handleSearch} />}
       {screen === 'loading' && <Loading activeStep={activeStep} completedSteps={completedSteps} />}
-      {screen === 'results' && <Results result={result} onReset={handleReset} />}
+      {screen === 'results' && <Results result={result} onReset={handleReset} income={income} />}
       {screen === 'clarification' && (
         <Clarification
           question={clarification?.question}

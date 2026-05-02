@@ -40,9 +40,53 @@ body {
 }
 .pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }
 
+/* Hide scrollbar utility (tab bar on mobile) */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* Thin dark scrollbar — all scrollable areas */
 ::-webkit-scrollbar          { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track    { background: transparent; }
 ::-webkit-scrollbar-thumb    { background: #1E2D45; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #2D4068; }
 * { scrollbar-width: thin; scrollbar-color: #1E2D45 transparent; }
+
+/* ── Print / PDF export ──────────────────────────────────────── */
+@media print {
+  body { background: #fff !important; color: #111 !important; font-size: 12px; }
+
+  .no-print { display: none !important; }
+
+  nav, [data-no-print] { display: none !important; }
+
+  /* Show sidebar inline */
+  .print-sidebar aside {
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+    border-right: none !important;
+    border-bottom: 1px solid #ddd !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  /* Force light colors */
+  * {
+    background: transparent !important;
+    color: #111 !important;
+    border-color: #ddd !important;
+    box-shadow: none !important;
+  }
+
+  h1, h2, h3, h4 { color: #111 !important; }
+  .text-white, .text-slate-300, .text-slate-400 { color: #111 !important; }
+  .text-slate-500, .text-slate-600 { color: #555 !important; }
+  .text-blue-400, .text-teal-400, .text-green-400 { color: #2563eb !important; }
+
+  .rounded-2xl, .rounded-xl { border: 1px solid #ddd !important; }
+
+  /* Show all tab content for print */
+  .print-content > div { display: block !important; }
+
+  @page { margin: 15mm; }
+}

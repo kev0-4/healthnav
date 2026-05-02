@@ -123,7 +123,7 @@ _CONDITION_MAP = [
         "bed_category": {"mild": "routine_ward", "moderate": "routine_ward", "severe": "hdu"},
         "los": {"mild": (1, 2), "moderate": (2, 4), "severe": (4, 7)},
     },
-    # Neurology
+    # Neurology / Stroke
     {
         "keywords": ["stroke", "brain stroke", "cerebrovascular", "tia", "seizure", "epilepsy", "brain"],
         "db_condition": "Neurosurgery",
@@ -135,6 +135,149 @@ _CONDITION_MAP = [
         },
         "bed_category": {"mild": "routine_ward", "moderate": "hdu", "severe": "icu"},
         "los": {"mild": (2, 4), "moderate": (5, 10), "severe": (10, 21)},
+    },
+    # Spine / Disc
+    {
+        "keywords": ["back pain", "spine", "disc herniation", "slipped disc", "sciatica", "spondylosis", "lumbar", "cervical spondylosis", "vertebra"],
+        "db_condition": "Neurosurgery",
+        "specialty_code": "NS",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "routine_ward"},
+        "los": {"mild": (0, 0), "moderate": (3, 5), "severe": (5, 7)},
+    },
+    # Diabetes
+    {
+        "keywords": ["diabetes", "diabetic", "blood sugar", "type 2 diabetes", "type 1 diabetes", "insulin", "hyperglycemia", "dka", "diabetic ketoacidosis"],
+        "db_condition": "General Medicine",
+        "specialty_code": "MG",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "icu"},
+        "los": {"mild": (0, 0), "moderate": (3, 5), "severe": (5, 10)},
+    },
+    # Hypertension
+    {
+        "keywords": ["hypertension", "high blood pressure", "hypertensive", "blood pressure"],
+        "db_condition": "General Medicine",
+        "specialty_code": "MG",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "hdu"},
+        "los": {"mild": (0, 0), "moderate": (2, 3), "severe": (3, 5)},
+    },
+    # Respiratory / COPD / Asthma
+    {
+        "keywords": ["copd", "asthma", "breathing difficulty", "shortness of breath", "respiratory failure", "bronchitis", "lung disease", "breathlessness", "wheezing"],
+        "db_condition": "Pulmonology",
+        "specialty_code": "MG",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "hdu"},
+        "los": {"mild": (0, 0), "moderate": (3, 5), "severe": (5, 10)},
+    },
+    # Cataract / Eye Surgery
+    {
+        "keywords": ["cataract", "eye lens", "cloudy vision", "phacoemulsification", "lens implant", "iol"],
+        "db_condition": "Ophthalmology",
+        "specialty_code": "OP",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "routine_ward"},
+        "los": {"mild": (0, 0), "moderate": (1, 1), "severe": (1, 2)},
+    },
+    # Obstetrics / Delivery / C-section
+    {
+        "keywords": ["pregnancy", "delivery", "caesarean", "c-section", "maternity", "childbirth", "labour", "labor", "antenatal", "prenatal", "obstetric"],
+        "db_condition": "Obstetrics & Gynaecology",
+        "specialty_code": "OB",
+        "procedures": {
+            "mild":     [],
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": "routine_ward", "moderate": "routine_ward", "severe": "routine_ward"},
+        "los": {"mild": (2, 3), "moderate": (3, 4), "severe": (4, 7)},
+    },
+    # Oncology / Cancer
+    {
+        "keywords": ["cancer", "tumor", "tumour", "malignancy", "carcinoma", "chemotherapy", "oncology", "lymphoma", "leukemia", "sarcoma"],
+        "db_condition": "Oncology",
+        "specialty_code": "OT",
+        "procedures": {
+            "mild":     [],
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": "routine_ward", "moderate": "hdu", "severe": "icu"},
+        "los": {"mild": (3, 5), "moderate": (5, 10), "severe": (10, 21)},
+    },
+    # Liver / Hepatology
+    {
+        "keywords": ["liver disease", "hepatitis", "cirrhosis", "jaundice", "liver failure", "hepatic", "fatty liver", "ascites"],
+        "db_condition": "Gastroenterology",
+        "specialty_code": "MG",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "hdu"},
+        "los": {"mild": (0, 0), "moderate": (5, 7), "severe": (7, 14)},
+    },
+    # Kidney Failure / CKD / Dialysis
+    {
+        "keywords": ["kidney failure", "renal failure", "dialysis", "ckd", "chronic kidney disease", "renal disease", "nephrotic syndrome", "acute kidney"],
+        "db_condition": "Urology",
+        "specialty_code": "URO",
+        "procedures": {
+            "mild":     [],
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": "routine_ward", "moderate": "hdu", "severe": "icu"},
+        "los": {"mild": (3, 5), "moderate": (5, 10), "severe": (10, 21)},
+    },
+    # Gynaecology
+    {
+        "keywords": ["fibroid", "ovarian cyst", "endometriosis", "pcos", "hysterectomy", "uterus", "gynaecology", "gynecology", "menstrual"],
+        "db_condition": "Obstetrics & Gynaecology",
+        "specialty_code": "OB",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "routine_ward"},
+        "los": {"mild": (0, 0), "moderate": (3, 5), "severe": (5, 7)},
+    },
+    # Psychiatry / Mental Health
+    {
+        "keywords": ["depression", "anxiety", "mental health", "psychiatric", "schizophrenia", "bipolar", "psychosis", "suicidal"],
+        "db_condition": "General Medicine",
+        "specialty_code": "MG",
+        "procedures": {
+            "mild":     None,
+            "moderate": [],
+            "severe":   [],
+        },
+        "bed_category": {"mild": None, "moderate": "routine_ward", "severe": "routine_ward"},
+        "los": {"mild": (0, 0), "moderate": (5, 14), "severe": (14, 30)},
     },
 ]
 

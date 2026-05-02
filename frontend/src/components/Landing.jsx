@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Search, ArrowRight, Activity, MapPin, DollarSign, ChevronDown, Brain, Database, Calculator, Building2 } from 'lucide-react'
+import { ArrowRight, Activity, MapPin, DollarSign, ChevronDown, ChevronUp, Brain, Database, Calculator, Building2 } from 'lucide-react'
 import { EXAMPLES, STATS } from '../data'
 
 const CITIES = ["Nagpur", "Mumbai", "Delhi", "Bengaluru", "Chennai", "Hyderabad", "Pune", "Kolkata", "Jaipur", "Lucknow", "Surat", "Bhopal", "Indore", "Patna", "Chandigarh"]
@@ -45,18 +45,30 @@ const HOW_IT_WORKS = [
   },
 ]
 
-export default function Landing({ onSearch }) {
-  const [query, setQuery] = useState('')
-  const [city, setCity] = useState('')
-  const [budget, setBudget] = useState('')
+const COMORBIDITIES = ['Diabetes', 'Hypertension', 'Heart disease', 'Kidney disease', 'Obesity']
+const INCOMES = ['Below ₹1 lakh', '₹1–5 lakh', '₹5–10 lakh', 'Above ₹10 lakh']
 
-  // Pick 5 random examples once on mount
+export default function Landing({ onSearch }) {
+  const [query, setQuery]           = useState('')
+  const [city, setCity]             = useState('')
+  const [budget, setBudget]         = useState('')
+  const [comorbidities, setComorbidities] = useState([])
+  const [income, setIncome]         = useState('')
+  const [moreOpen, setMoreOpen]     = useState(false)
+
   const displayedExamples = useMemo(() => {
     return [...EXAMPLES].sort(() => Math.random() - 0.5).slice(0, 5)
   }, [])
 
+  const toggleComorbidity = (c) =>
+    setComorbidities(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])
+
   const submit = (q = query) => {
-    if (q.trim()) onSearch(q.trim(), city, budget)
+    if (!q.trim()) return
+    // Append comorbidities to query so NLP extractor picks them up naturally
+    let fullQuery = q.trim()
+    if (comorbidities.length) fullQuery += `. I also have: ${comorbidities.join(', ')}.`
+    onSearch(fullQuery, city, budget, income)
   }
 
   const scrollToHowItWorks = () => {
@@ -136,6 +148,55 @@ export default function Landing({ onSearch }) {
                 Analyze <ArrowRight size={15} />
               </button>
             </div>
+
+            {/* More options toggle */}
+            <button onClick={() => setMoreOpen(o => !o)}
+              className="flex items-center gap-1.5 text-[12px] text-slate-500 hover:text-slate-300 transition-colors mt-2">
+              {moreOpen ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+              {moreOpen ? 'Hide details' : 'Add health conditions & income (optional)'}
+            </button>
+
+            {moreOpen && (
+              <div className="mt-3 pt-3 border-t border-[#1E2D45] space-y-4">
+                {/* Comorbidities */}
+                <div>
+                  <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold mb-2">Existing conditions</p>
+                  <div className="flex flex-wrap gap-2">
+                    {COMORBIDITIES.map(c => (
+                      <button key={c} onClick={() => toggleComorbidity(c)}
+                        className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${
+                          comorbidities.includes(c)
+                            ? 'bg-blue-600 border-blue-500 text-white'
+                            : 'border-[#1E2D45] text-slate-400 hover:border-slate-500'
+                        }`}>
+                        {c}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {/* Annual income */}
+                <div>
+                  <p className="text-[11px] text-slate-500 uppercase tracking-widest font-semibold mb-2">Annual family income</p>
+                  <div className="flex flex-wrap gap-2">
+                    {INCOMES.map(inc => (
+                      <button key={inc} onClick={() => setIncome(income === inc ? '' : inc)}
+                        className={`text-[12px] px-3 py-1.5 rounded-full border transition-colors ${
+                          income === inc
+                            ? 'bg-teal-700 border-teal-600 text-white'
+                            : 'border-[#1E2D45] text-slate-400 hover:border-slate-500'
+                        }`}>
+                        {inc}
+                      </button>
+                    ))}
+                  </div>
+                  {income && income !== 'Above ₹10 lakh' && (
+                    <p className="text-[11px] text-green-400 mt-2 flex items-center gap-1.5">
+                      ✓ You may be eligible for AB-PMJAY free treatment — we'll check in results
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Example chips — 5 random ones from pool of 20 */}

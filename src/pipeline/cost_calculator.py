@@ -61,7 +61,38 @@ def _apply_stacking(prices: list) -> int:
     return int(total)
 
 
-def calculate(pathway: dict, city: str, nabh_level: str = "none") -> dict:
+_COMORBIDITY_CONTINGENCY = {
+    "diabetes":       0.05,
+    "diabetic":       0.05,
+    "hypertension":   0.03,
+    "heart disease":  0.08,
+    "cardiac":        0.08,
+    "kidney disease": 0.05,
+    "renal":          0.05,
+    "copd":           0.04,
+    "asthma":         0.03,
+    "cancer":         0.07,
+    "obesity":        0.03,
+}
+
+
+def _comorbidity_bump(comorbidities: list) -> tuple[float, list]:
+    """Returns (total_extra_contingency_rate, list_of_reasons)."""
+    if not comorbidities:
+        return 0.0, []
+    bump = 0.0
+    reasons = []
+    for c in comorbidities:
+        c_lower = c.lower()
+        for keyword, rate in _COMORBIDITY_CONTINGENCY.items():
+            if keyword in c_lower:
+                bump += rate
+                reasons.append(f"{c} (+{int(rate*100)}% contingency)")
+                break
+    return min(bump, 0.20), reasons  # cap at 20% extra
+
+
+def calculate(pathway: dict, city: str, nabh_level: str = "none", comorbidities: list = None) -> dict:
     if pathway.get("opd_only"):
         return {"error": "no_pricing", "opd_only": True, "city": city}
 
@@ -93,11 +124,13 @@ def calculate(pathway: dict, city: str, nabh_level: str = "none") -> dict:
     med_low = int(proc_low * 0.08)
     med_high = int(proc_high * 0.12)
 
-    # Subtotal → contingency at 9%
+    # Subtotal → contingency at 9% + comorbidity bump
+    co_bump, co_reasons = _comorbidity_bump(comorbidities or [])
+    cont_rate = 0.09 + co_bump
     sub_low = proc_low + stay_low + med_low
     sub_high = proc_high + stay_high + med_high
-    cont_low = int(sub_low * 0.09)
-    cont_high = int(sub_high * 0.09)
+    cont_low = int(sub_low * cont_rate)
+    cont_high = int(sub_high * cont_rate)
 
     # Per-procedure cost breakdown (uses procedure_details from procedure_selector if available)
     per_procedure_costs = []
@@ -161,7 +194,7 @@ def calculate(pathway: dict, city: str, nabh_level: str = "none") -> dict:
             "nabh": f"{nabh_level} ({NABH_MULTIPLIERS.get(nabh_level, 1.0)}×)",
             "los": f"{pathway['los_low']}–{pathway['los_high']} days, {pathway['bed_category'].replace('_', ' ').title()}",
             "meds": "8–12% of procedure base (IRDAI benchmark)",
-            "contingency": "9% of subtotal",
+            "contingency": f"{int(cont_rate*100)}% of subtotal" + (f" — raised for: {', '.join(co_reasons)}" if co_reasons else ""),
             "bed_rate": f"₹{bed_rate:,}/day · {pathway['bed_category'].replace('_', ' ').title()} (HBP 2022)",
         },
     }
