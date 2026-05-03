@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+raw/
+docs/
+frontend/
+*.md
+.git/
+test_*.py
