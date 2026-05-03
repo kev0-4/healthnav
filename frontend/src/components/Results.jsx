@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Activity, Download, AlertTriangle, ArrowRight } from 'lucide-react'
+import { Activity, Download, AlertTriangle, ArrowRight, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import Sidebar from './Sidebar'
 import TabPathway from './TabPathway'
 import TabCost from './TabCost'
@@ -67,6 +67,7 @@ function OPDCard({ result, onReset }) {
 export default function Results({ result, onReset, income }) {
   const [tab, setTab] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
   if (result?._opd) return <OPDCard result={result} onReset={onReset} />
 
@@ -95,6 +96,11 @@ export default function Results({ result, onReset, income }) {
             className="md:hidden text-[12px] text-slate-400 border border-[#1E2D45] px-3 py-1.5 rounded-lg">
             {sidebarOpen ? 'Hide' : 'Summary'}
           </button>
+          <button onClick={() => setSidebarCollapsed(c => !c)}
+            className="hidden md:flex items-center gap-1.5 text-[12px] text-slate-400 border border-[#1E2D45] hover:border-slate-500 px-3 py-1.5 rounded-lg transition-colors no-print">
+            {sidebarCollapsed ? <PanelLeftOpen size={13} /> : <PanelLeftClose size={13} />}
+            {sidebarCollapsed ? 'Summary' : 'Hide'}
+          </button>
           <button onClick={handlePrint}
             className="hidden sm:flex items-center gap-1.5 text-[12px] text-slate-400 border border-[#1E2D45] hover:border-slate-500 px-3 py-1.5 rounded-lg transition-colors no-print">
             <Download size={13} /> Export PDF
@@ -109,7 +115,7 @@ export default function Results({ result, onReset, income }) {
       <div className="flex pt-[60px] min-h-screen">
 
         {/* Desktop sidebar */}
-        <div className="hidden md:block print-sidebar">
+        <div className={`${sidebarCollapsed ? 'hidden' : 'hidden md:block'} print-sidebar`}>
           <Sidebar result={result} onReset={onReset} income={income} />
         </div>
 

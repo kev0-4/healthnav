@@ -185,8 +185,6 @@ export default function Sidebar({ result, onReset, income }) {
           </div>
           <p className="text-[11px] text-slate-600">HBP rate column: tier{selectedTier}_inr</p>
         </div>
-      </div>
-
         <EligibilityBanner income={income} />
       </div>
 
